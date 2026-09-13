@@ -1,43 +1,47 @@
-# 🎵 ESP32 RC522 NFC Wi-Fi Music Player
+# Meme Glove 🎯
 
-Trigger and play songs on your PC wirelessly whenever an NFC or RFID card is scanned by your ESP32.
+## Basic Details
+### Team Name: Solo
 
----
+### Team Members
+- Team Lead: Anurag - [College]
 
-## 📁 Project Structure
+### Project Description
+An IoT-powered wireless soundboard system using an ESP32 microcontroller and an RC522 RFID/NFC module. Whenever an RFID tag or card is scanned, the ESP32 wirelessly transmits the card's Unique Identifier (UID) over local Wi-Fi to a PC audio server (Python Flask / Node.js Express) to instantly trigger custom songs, meme sound effects, and playback controls.
 
-```
-├── esp32/
-│   └── esp32_rc522_wifi.ino     # Arduino code for ESP32 & RC522 RFID module
-│
-├── server/                      # 🐍 PYTHON SERVER OPTION
-│   ├── server.py                # Python HTTP server & Pygame audio player
-│   ├── config.json              # Tag UID -> Song / Action mapping
-│   ├── requirements.txt         # Flask & Pygame dependencies
-│   ├── generate_samples.py      # Generates test audio files
-│   └── music/                   # Place your .mp3 / .wav songs here
-│
-├── server_node/                 # ⚡ NODE.JS SERVER OPTION
-│   ├── server.js                # Node.js Express HTTP server & Windows audio player
-│   ├── config.json              # Tag UID -> Song / Action mapping
-│   ├── package.json             # Express dependencies
-│   └── music/                   # Place your .mp3 / .wav songs here
-│
-├── run_server.bat               # 1-Click launcher for Python Server
-├── run_node_server.bat          # 1-Click launcher for Node.js Server
-└── README.md
-```
+### The Problem (that doesn't exist)
+Having to manually search for meme sound effects, open Spotify, or press hotkeys on your keyboard every time you want dramatic entrance music or punchlines in real-life conversations takes way too much physical effort and completely ruins comedic timing.
+
+### The Solution (that nobody asked for)
+An over-engineered wireless NFC/RFID glove system that reads tags tapped on your hands, cards, or keychains and immediately transmits HTTP triggers over Wi-Fi to blast audio directly through your PC speakers with zero mouse clicks.
 
 ---
 
-## ⚡ 1. Hardware Setup (RC522 $\leftrightarrow$ ESP32)
+## Technical Details
 
-Connect the **MFRC522** RFID/NFC module to your **ESP32** using standard SPI pins:
+### Technologies/Components Used
 
-| RC522 Pin | ESP32 Pin | Notes |
+For Software:
+- **Languages**: C++ (Arduino ESP32), Python 3, JavaScript (Node.js)
+- **Frameworks**: Flask (Python), Express.js (Node.js)
+- **Libraries**: `MFRC522`, `WiFi.h`, `HTTPClient.h`, `pygame` (mixer), `sound-play`
+- **Tools**: Arduino IDE, Windows Batch Scripts (`.bat`), Git, GitHub CLI
+
+For Hardware:
+- **ESP32 NodeMCU Development Board** (2.4 GHz Wi-Fi + Bluetooth, Dual-Core)
+- **RC522 RFID / NFC Reader Module** (13.56 MHz SPI interface, 3.3V operating voltage)
+- **13.56 MHz RFID / NFC Cards & Keychains** (MIFARE Classic / NTAG)
+- **Jumper Wires & Breadboard** (or glove mount)
+- **Micro-USB Cable & 5V Power Source**
+
+---
+
+### Hardware Connections (Pinout Table)
+
+| RC522 Pin | ESP32 Pin | Specification / Notes |
 | :--- | :--- | :--- |
-| **3.3V / VCC** | **3.3V** | ⚠️ **DO NOT connect to 5V!** |
-| **RST** | **GPIO 22** | Reset Pin |
+| **3.3V / VCC** | **3.3V** | ⚠️ **Must use 3.3V power (DO NOT connect to 5V)** |
+| **RST** | **GPIO 22** | Reset line |
 | **GND** | **GND** | Ground |
 | **MISO** | **GPIO 19** | SPI Master In Slave Out |
 | **MOSI** | **GPIO 23** | SPI Master Out Slave In |
@@ -46,68 +50,121 @@ Connect the **MFRC522** RFID/NFC module to your **ESP32** using standard SPI pin
 
 ---
 
-## 💻 2. Step-by-Step Setup
+### Implementation
 
-### Step A: Start the Python Music Server on PC
-1. Double-click **`run_server.bat`**.
-2. The script will automatically:
-   - Create a Python virtual environment.
-   - Install required packages (`flask`, `pygame`).
-   - Display your PC's Wi-Fi IP address on the screen (e.g., `192.168.1.15`).
-   - Start the server on port `5000`.
-3. Open your browser and visit **`http://localhost:5000`** to view the live dashboard!
+#### For Software:
 
----
+# Installation
 
-### Step B: Configure and Flash ESP32
-1. Open **Arduino IDE**.
-2. Install the **MFRC522** library:
-   - Go to **Sketch** $\rightarrow$ **Include Library** $\rightarrow$ **Manage Libraries...**
-   - Search for **`MFRC522`** (by GithubCommunity / Miguel Balboa) and click **Install**.
-3. Open [`esp32/esp32_rc522_wifi.ino`](esp32/esp32_rc522_wifi.ino).
-4. Update your Wi-Fi credentials and PC IP address at the top:
+**Option A: Python Music Server**
+```bash
+# Clone the repository
+git clone https://github.com/lovhamic/meme-glove.git
+cd meme-glove
+
+# Install Python requirements (or use 1-click run_server.bat)
+pip install -r server/requirements.txt
+```
+
+**Option B: Node.js Music Server**
+```bash
+# Navigate to Node.js server directory
+cd server_node
+
+# Install Node dependencies (or use 1-click run_node_server.bat)
+npm install
+```
+
+# Run
+
+**1. Start the Server on PC (1-Click Run):**
+- **Python Server**: Double-click `run_server.bat`
+- **Node.js Server**: Double-click `run_node_server.bat`
+*(The batch file will automatically detect and print your local Wi-Fi IP address and start the server on port 5000)*
+
+**2. Flash the ESP32:**
+1. Open `esp32/esp32_rc522_wifi.ino` in Arduino IDE.
+2. Install the **`MFRC522`** library (*Sketch -> Include Library -> Manage Libraries*).
+3. Set your Wi-Fi credentials and PC IP address:
    ```cpp
-   const char* WIFI_SSID     = "Your_WiFi_Name";
-   const char* WIFI_PASSWORD = "Your_WiFi_Password";
-   const char* SERVER_IP     = "192.168.1.15"; // PC IP from Step A
+   const char* WIFI_SSID     = "YOUR_WIFI_SSID";
+   const char* WIFI_PASSWORD = "YOUR_WIFI_PASSWORD";
+   const char* SERVER_IP     = "192.168.x.x"; // IP shown in server launcher
    const int   SERVER_PORT   = 5000;
    ```
-5. Select your ESP32 board and COM port, then click **Upload**.
-6. Open **Serial Monitor** at **115200 baud** to see connection logs.
+4. Select board **ESP32 Dev Module** and upload.
+
+**3. Configure Card Mappings:**
+- Edit `server/config.json` (or `server_node/config.json`) to assign any card UID to an audio file in `music/`:
+  ```json
+  {
+    "tags": {
+      "04A1B2C3": "song1.wav",
+      "84C3D2E1": "meme_sound.mp3",
+      "STOP_CARD_UID": "ACTION:STOP"
+    }
+  }
+  ```
 
 ---
 
-## 🎛️ 3. Mapping Cards to Songs
+### Project Documentation
 
-### How to Map New Cards:
-1. Tap any NFC card or RFID keychain on the reader.
-2. The server console and web dashboard will highlight the scanned UID:
-   ```text
-   [!] NEW / UNMAPPED CARD DETECTED: 83A1290B
-   ```
-3. Open [`server/config.json`](server/config.json) and add your card:
-   ```json
-   {
-     "settings": {
-       "music_folder": "music",
-       "default_volume": 0.8
-     },
-     "tags": {
-       "83A1290B": "my_favorite_song.mp3",
-       "04A1B2C3": "song2.wav",
-       "E5F6G7H8": "ACTION:STOP",
-       "11223344": "ACTION:PAUSE_RESUME"
-     }
-   }
-   ```
-4. Place your `.mp3` or `.wav` files into the `server/music/` folder.
-5. **No need to restart the server!** `config.json` is reloaded live on every scan.
+For Software:
+
+# Screenshots (Add at least 3)
+![Screenshot1](Add screenshot 1 here with proper name)
+*Web Dashboard showing connected server status and live playback controls*
+
+![Screenshot2](Add screenshot 2 here with proper name)
+*Server terminal showing real-time NFC card detection and Wi-Fi requests*
+
+![Screenshot3](Add screenshot 3 here with proper name)
+*Arduino Serial Monitor output showing Wi-Fi connection and scanned UID values*
+
+# Diagrams
+![Workflow](Add your workflow/architecture diagram here)
+*System Architecture: ESP32 + RC522 scans NFC tag -> Sends HTTP POST over Wi-Fi -> Python/Node.js Server matches UID -> PC plays sound*
 
 ---
 
-## 🎵 Special Action Commands
-You can map a card UID to control commands instead of a song:
-- `"ACTION:STOP"`: Stops the current music.
-- `"ACTION:PAUSE_RESUME"`: Toggles play/pause.
-- `"ACTION:VOL_UP"`: Increases volume by 10%.
-- `"ACTION:VOL_DOWN"`: Decreases volume by 10%.
+For Hardware:
+
+# Schematic & Circuit
+![Circuit](Add your circuit diagram here)
+*Circuit connection between ESP32 and RC522 RFID reader over SPI bus*
+
+![Schematic](Add your schematic diagram here)
+*Schematic diagram illustrating 3.3V power, ground, and SPI GPIO connections*
+
+# Build Photos
+![Components](Add photo of your components here)
+*ESP32 board, RC522 RFID module, RFID cards/tags, and jumper wires*
+
+![Build](Add photos of build process here)
+*Wiring and assembly of the RFID reader on the glove/mounting frame*
+
+![Final](Add photo of final product here)
+*Completed Meme Glove hardware ready for wireless sound triggering*
+
+---
+
+### Project Demo
+
+# Video
+[Add your demo video link here]
+*Video demonstrating tapping different RFID cards/tags to instantly play corresponding meme songs and audio tracks on the PC*
+
+# Additional Demos
+- Web Dashboard accessible at `http://localhost:5000` for live scan history and volume control.
+
+---
+
+## Team Contributions
+- **Anurag**: Solo participant — Hardware circuit design, ESP32 firmware development, Python & Node.js backend servers, Windows batch automation, and documentation.
+
+---
+Made with ❤️ at TinkerHub Useless Projects 
+
+![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
+![Static Badge](https://img.shields.io/badge/UselessProjects--26-26?link=https%3A%2F%2Ftinkerhub.org%2Fevents%2F1M8ORET9A1%2Fuseless-projects-3.0)
