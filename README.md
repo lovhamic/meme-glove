@@ -198,14 +198,22 @@ flowchart LR
 *Circuit schematic illustrating SPI data bus and 3.3V power rails between ESP32 and RC522*
 
 # Build Photos
-![Components](Add photo of your components here)
-*ESP32 board, RC522 RFID module, RFID cards/tags, and jumper wires*
 
-![Build](Add photos of build process here)
-*Wiring and assembly of the RFID reader on the glove/mounting frame*
+### 🧤 1. Wearable Controller & ESP32 Wrist Mount
+![ESP32 Wrist Mount](photos/IMG_9188.JPG.jpeg)
+*ESP32 development board secured with watch-strap mount and jumper wiring routed to the RFID reader inside the glove*
 
-![Final](Add photo of final product here)
-*Completed Meme Glove hardware ready for wireless sound triggering*
+### 🔋 2. Wireless LiPo Power Pack
+![Battery Mount](photos/IMG_9189.JPG.jpeg)
+*Rechargeable lithium battery pack tucked securely under the wrist cuff for completely untethered wireless operation*
+
+### ✋ 3. Front Palm & Sensor Integration
+![Front Palm View](photos/IMG_9190.JPG.jpeg)
+*Glove palm view showing the flexible sensor integration ready for proximity card scanning*
+
+### 💻 4. Complete System Testing & Arduino IDE Flashing
+![Full System Setup](photos/IMG_9191.JPG.jpeg)
+*Live setup testing: ESP32 scanning RFID card on desk, flashing via Arduino IDE, and streaming Wi-Fi audio triggers to the PC*
 
 ---
 
