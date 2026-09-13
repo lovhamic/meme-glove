@@ -123,7 +123,18 @@ For Software:
 *Arduino Serial Monitor output showing Wi-Fi connection and scanned UID values*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
+
+```mermaid
+flowchart TD
+    A["🏷️ NFC Card / RFID Tag"] -->|13.56 MHz RFID Wave| B["📡 RC522 Reader Module"]
+    B -->|SPI Bus (GPIO 5, 18, 19, 23, 22)| C["⚡ ESP32 Microcontroller"]
+    C -->|Extracts UID (e.g. '04A1B2C3')| C
+    C -->|HTTP POST JSON over Wi-Fi| D["💻 PC Server (Python / Node.js)"]
+    D -->|Look up UID in config.json| E{"🔍 Mapped Action?"}
+    E -->|Song File (.mp3 / .wav)| F["🔊 Play Audio via Pygame / Windows Media"]
+    E -->|Command: ACTION:STOP| G["⏹️ Stop Playback"]
+    E -->|Unmapped Card| H["📢 Console Notification + Beep"]
+```
 *System Architecture: ESP32 + RC522 scans NFC tag -> Sends HTTP POST over Wi-Fi -> Python/Node.js Server matches UID -> PC plays sound*
 
 ---
@@ -131,11 +142,60 @@ For Software:
 For Hardware:
 
 # Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Circuit connection between ESP32 and RC522 RFID reader over SPI bus*
 
-![Schematic](Add your schematic diagram here)
-*Schematic diagram illustrating 3.3V power, ground, and SPI GPIO connections*
+### 📊 Schematic Diagram (Mermaid)
+
+```mermaid
+flowchart LR
+    subgraph ESP32["ESP32 Development Board"]
+        direction TB
+        ESP_3V3["3V3 (Power Out)"]
+        ESP_GND["GND (Ground)"]
+        ESP_D5["GPIO 5 (SPI SS / CS)"]
+        ESP_D18["GPIO 18 (SPI SCK)"]
+        ESP_D19["GPIO 19 (SPI MISO)"]
+        ESP_D23["GPIO 23 (SPI MOSI)"]
+        ESP_D22["GPIO 22 (RST Control)"]
+    end
+
+    subgraph RC522["MFRC522 RFID / NFC Module"]
+        direction TB
+        RC_3V3["3.3V (VCC)"]
+        RC_RST["RST (Reset)"]
+        RC_GND["GND (Ground)"]
+        RC_IRQ["IRQ (Not Connected)"]
+        RC_MISO["MISO (Master In)"]
+        RC_MOSI["MOSI (Master Out)"]
+        RC_SCK["SCK (Serial Clock)"]
+        RC_SDA["SDA / SS (Slave Select)"]
+    end
+
+    ESP_3V3 ===|3.3V DC Power| RC_3V3
+    ESP_GND ===|Common Ground| RC_GND
+    ESP_D22 -->|Reset Signal| RC_RST
+    ESP_D5 -->|SPI Chip Select| RC_SDA
+    ESP_D18 -->|SPI Clock| RC_SCK
+    ESP_D23 -->|SPI MOSI| RC_MOSI
+    RC_MISO -->|SPI MISO| ESP_D19
+```
+
+### 🔌 Pin-to-Pin Circuit Schematic (ASCII)
+
+```text
++------------------------------------+             +-----------------------------+
+|        ESP32 DEVKIT V1             |             |     RC522 RFID/NFC MODULE   |
+|                                    |             |                             |
+|                           [3V3] ---|=============|---> [3.3V (VCC)]            |
+|                           [GND] ---|=============|---> [GND]                   |
+|                        [GPIO 5] ---|------------->---> [SDA / SS]               |
+|                       [GPIO 18] ---|------------->---> [SCK]                    |
+|                       [GPIO 19] <--|-------------<---| [MISO]                   |
+|                       [GPIO 23] ---|------------->---> [MOSI]                   |
+|                       [GPIO 22] ---|------------->---> [RST]                    |
+|                                    |             |     [IRQ] (Not Connected)   |
++------------------------------------+             +-----------------------------+
+```
+*Circuit schematic illustrating SPI data bus and 3.3V power rails between ESP32 and RC522*
 
 # Build Photos
 ![Components](Add photo of your components here)
