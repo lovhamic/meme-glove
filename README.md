@@ -4,7 +4,7 @@
 ### Team Name: Solo
 
 ### Team Members
-- Team Lead: Anurag - [College]
+- Team Lead: Anurag - Muhammad Abdul Rahman Memorial College Mukkam
 
 ### Project Description
 An IoT-powered wireless soundboard system using an ESP32 microcontroller and an RC522 RFID/NFC module. Whenever an RFID tag or card is scanned, the ESP32 wirelessly transmits the card's Unique Identifier (UID) over local Wi-Fi to a PC audio server (Python Flask / Node.js Express) to instantly trigger custom songs, meme sound effects, and playback controls.
@@ -112,15 +112,15 @@ npm install
 
 For Software:
 
-# Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Web Dashboard showing connected server status and live playback controls*
+# Screenshots
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Server terminal showing real-time NFC card detection and Wi-Fi requests*
+### 💻 1. Node.js Audio Server Terminal
+![Server Terminal](photos/software%20screenshot/Screenshot%202026-09-13%20065533.png)
+*Node.js server running in Windows Terminal showing live IP configuration (`192.168.1.138:5000`), real-time NFC card detection (UID: `5342563E`), and automatic trigger of mapped meme audio (`polayadi-mone.mp3`)*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Arduino Serial Monitor output showing Wi-Fi connection and scanned UID values*
+### ⚡ 2. Arduino IDE ESP32 Serial Monitor
+![Arduino Serial Monitor](photos/software%20screenshot/Screenshot%202026-09-13%20065550.png)
+*Arduino IDE Serial Monitor displaying real-time detection of RFID cards (UID: `5342563E`, `54253402`), transmission of HTTP POST requests over Wi-Fi, and HTTP 200 responses from the PC server*
 
 # Diagrams
 
