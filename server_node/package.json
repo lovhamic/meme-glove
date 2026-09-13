@@ -1,0 +1,13 @@
+{
+  "name": "esp32-nfc-music-server-node",
+  "version": "1.0.0",
+  "description": "Node.js HTTP Server & Audio Player for ESP32 NFC Tag Reader",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sound-play": "^1.1.0"
+  }
+}

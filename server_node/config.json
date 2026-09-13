@@ -1,0 +1,13 @@
+{
+  "_comment": "Add your NFC card UIDs below. Replace SAMPLE_CARD_1 with the UID printed in the server console when you tap your card.",
+  "settings": {
+    "music_folder": "music",
+    "default_volume": 0.8
+  },
+  "tags": {
+    "5342563E": "polayadi-mone.mp3",
+    "999FC099": "faa.mpeg",
+    "54253402": "kayivvvv.mpeg",
+    "SAMPLE_STOP_CARD": "ACTION:STOP"
+  }
+}
