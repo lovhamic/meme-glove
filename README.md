@@ -220,8 +220,11 @@ flowchart LR
 ### Project Demo
 
 # Video
-[Add your demo video link here]
-*Video demonstrating tapping different RFID cards/tags to instantly play corresponding meme songs and audio tracks on the PC*
+[![Meme Glove Demo Video](https://img.youtube.com/vi/LUmQggYwaEM/0.jpg)](https://youtube.com/shorts/LUmQggYwaEM)
+
+📺 **[Click here to Watch Demo Video on YouTube Shorts](https://youtube.com/shorts/LUmQggYwaEM)**
+
+*Demonstration video of the wearable Meme Glove scanning RFID cards and wirelessly triggering meme sound effects on the PC over Wi-Fi*
 
 # Additional Demos
 - Web Dashboard accessible at `http://localhost:5000` for live scan history and volume control.
